@@ -1,0 +1,160 @@
+const sampleData = [
+
+  { id: 1, name: 'John Doe', age: 25, city: 'New York', occupation: 'Engineer' },
+
+  { id: 2, name: 'Jane Smith', age: 30, city: 'San Francisco', occupation: 'Designer' },
+
+  { id: 3, name: 'Bob Johnson', age: 28, city: 'Chicago', occupation: 'Accountant' },
+
+  { id: 4, name: 'Alice Brown', age: 35, city: 'Los Angeles', occupation: 'Teacher' },
+
+  { id: 5, name: 'Charlie Wilson', age: 40, city: 'Houston', occupation: 'Doctor' },
+
+  { id: 6, name: 'Eva Davis', age: 22, city: 'Miami', occupation: 'Artist' },
+
+  { id: 7, name: 'Frank Miller', age: 32, city: 'Seattle', occupation: 'Software Engineer' },
+
+  { id: 8, name: 'Grace Taylor', age: 45, city: 'Boston', occupation: 'Lawyer' },
+
+  { id: 9, name: 'Henry Clark', age: 28, city: 'Denver', occupation: 'Marketing Manager' },
+
+  { id: 10, name: 'Ivy Adams', age: 33, city: 'Atlanta', occupation: 'Entrepreneur' },
+
+];
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Filtering</title>
+</head>
+<body>
+    <h1>Filtering by name and age </h1>
+
+    //input fields filttering
+    <label for="nameFilter">Filter by Name:</label>
+    <input type="text" id="nameFilter" placeholder="Name">
+    <br>
+
+    <label for="ageFilter">Filter by Age:</label>
+    <input type="number" id="ageFilter" placeholder="Age">
+    <br>
+
+  //drop down filtering
+    <label for="cityFilter">Filter by City:</label>
+    <select id="cityFilter">
+        <option value="">All Cities</option>
+        <option value="New York">New York</option>
+        <option value="Los Angeles">Los Angeles</option>
+        <option value="Chicago">Chicago</option>
+        //you can add more
+    </select>
+    <br>
+
+    <label for="occupationFilter">Filter by Occupation:</label>
+    <select id="occupationFilter">
+        <option value="">All Occupations</option>
+        <option value="Engineer">Engineer</option>
+        <option value="Teacher">Teacher</option>
+        <option value="Doctor">Doctor</option>
+        //you can add more
+    </select>
+    <br>
+
+
+  <!DOCTYPE html>
+<html>
+<head>
+    <title>Dynamic Filtering Example</title>
+</head>
+<body>
+    <h1>Dynamic Filtering Example</h1>
+
+    <!-- Input fields for filtering -->
+    <label for="nameFilter">Filter by Name:</label>
+    <input type="text" id="nameFilter" placeholder="Name">
+    <br>
+
+    <label for="ageFilter">Filter by Age:</label>
+    <input type="number" id="ageFilter" placeholder="Age">
+    <br>
+
+    <!-- Dropdowns for filtering -->
+    <label for="cityFilter">Filter by City:</label>
+    <select id="cityFilter">
+        <option value="">All Cities</option>
+        <option value="New York">New York</option>
+        <option value="Los Angeles">Los Angeles</option>
+        <option value="Chicago">Chicago</option>
+        <!-- Add more city options as needed -->
+    </select>
+    <br>
+
+    <label for="occupationFilter">Filter by Occupation:</label>
+    <select id="occupationFilter">
+        <option value="">All Occupations</option>
+        <option value="Engineer">Engineer</option>
+        <option value="Teacher">Teacher</option>
+        <option value="Doctor">Doctor</option>
+        <!-- Add more occupation options as needed -->
+    </select>
+    <br>
+
+    <!-- Reset button -->
+    <button id="resetButton">Reset Filters</button>
+    <br>
+
+    <!-- Data to be filtered -->
+    <ul id="dataList">
+        <li>Name: John, Age: 25, City: New York, Occupation: Engineer</li>
+        <li>Name: Jane, Age: 30, City: Los Angeles, Occupation: Teacher</li>
+        <li>Name: Bob, Age: 22, City: Chicago, Occupation: Doctor</li>
+        <!-- Add more data as needed -->
+    </ul>
+
+    <script>
+        const nameFilterInput = document.getElementById('nameFilter');
+        const ageFilterInput = document.getElementById('ageFilter');
+        const cityFilterSelect = document.getElementById('cityFilter');
+        const occupationFilterSelect = document.getElementById('occupationFilter');
+        const resetButton = document.getElementById('resetButton');
+        const dataList = document.getElementById('dataList');
+        const dataItems = Array.from(dataList.querySelectorAll('li'));
+
+        function filterData() {
+            const nameFilter = nameFilterInput.value.toLowerCase();
+            const ageFilter = parseInt(ageFilterInput.value);
+            const selectedCity = cityFilterSelect.value;
+            const selectedOccupation = occupationFilterSelect.value;
+
+            dataItems.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                const age = parseInt(text.match(/\d+/)[0]);
+
+                const nameMatch = text.includes(nameFilter);
+                const ageMatch = isNaN(ageFilter) || age === ageFilter;
+                const cityMatch = selectedCity === '' || text.includes(`City: ${selectedCity}`);
+                const occupationMatch = selectedOccupation === '' || text.includes(`Occupation: ${selectedOccupation}`);
+
+                item.style.display = nameMatch && ageMatch && cityMatch && occupationMatch ? 'block' : 'none';
+            });
+        }
+
+        function resetFilters() {
+            nameFilterInput.value = '';
+            ageFilterInput.value = '';
+            cityFilterSelect.value = '';
+            occupationFilterSelect.value = '';
+            dataItems.forEach(item => {
+                item.style.display = 'block';
+            });
+        }
+
+        nameFilterInput.addEventListener('input', filterData);
+        ageFilterInput.addEventListener('input', filterData);
+        cityFilterSelect.addEventListener('change', filterData);
+        occupationFilterSelect.addEventListener('change', filterData);
+        resetButton.addEventListener('click', resetFilters);
+    </script>
+</body>
+</html>
+
